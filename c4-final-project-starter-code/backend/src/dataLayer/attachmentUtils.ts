@@ -7,7 +7,7 @@ import * as AWSXRay from 'aws-xray-sdk'
 
 //const logger = createLogger('TodoAccess')
 
-
+//70893.kowledge center
 const XAWS = AWSXRay.captureAWS(AWS)
 
 

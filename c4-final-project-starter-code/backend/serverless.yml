@@ -1,5 +1,5 @@
-# TODO: Change the name of the org 
-org: osman8218  #serverless-org-name
+
+org: osman8218
 app: serverless-todo-app
 service: serverless-todo-app
 
@@ -25,7 +25,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage} #change-to- serverless-osman-udagram
+    ATTACHMENT_S3_BUCKET: serverless-osman-udagram-${self:provider.stage} #-c4-todo-images-change-to- serverless-osman-udagram
     SIGNED_URL_EXPIRATION: 300
     Auth_0_Secret: cdyRoWN3r30pu4j1Aqx4K5jaJ1QpZJSMCe94Zq242j2Fv5nxQOhfYr7ZC9y9HmLw
     AUTH_0_JSON_WEB_KEY_SET_URL: https://dev-p8g3a2x0.us.auth0.com/.well-known/jwks.json
@@ -50,8 +50,7 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
-  # Provide iamRoleStatements property for performing Actions on DynamoDB
+
   GetTodos:
     handler: src/lambda/http/getTodos.handler
     events:
@@ -73,10 +72,13 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
         Action:
          - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
+      - Effect: Allow 
+        Action:
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+        Resource:
+          - "*"
 
-
-
-  # TODO: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
@@ -105,7 +107,7 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
 
 
 
-  # TODO: Configure this function
+ 
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -113,7 +115,12 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
       - http:
           method: patch
           path: todos/{todoId}
-    iamRoleStatements: # here
+          cors: true
+          authorizer: Auth 
+          request:
+            schema:
+              'application/json': ${file(models/update-todo-model.json)}
+    iamRoleStatements: 
       - Effect: Allow
         Action:
           - dynamodb:GetItem
@@ -126,7 +133,6 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
         Resource:
           - "*"
 
-  # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -140,7 +146,7 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
           - dynamodb:GetItem
           - dynamodb:DeleteItem
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+        Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}"
       - Effect: Allow 
         Action:
           - xray:PutTraceSegments
@@ -151,7 +157,6 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
 
 
 
-  # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -184,7 +189,6 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
-    # TODO: Fill the properties
     # Feel free to change the names as you like. 
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
@@ -196,7 +200,7 @@ resources:
           ResponseType: DEFAULT_4XX
           RestApiId: !Ref ApiGatewayRestApi
     
-    # TODO: Create a DynamoDB table with local secondary index and a composite key
+## Create a DynamoDB table with local secondary index and a composite key
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:

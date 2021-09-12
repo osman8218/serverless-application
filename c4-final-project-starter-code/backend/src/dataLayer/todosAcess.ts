@@ -17,6 +17,7 @@ export class TodosAccess {
     
   constructor(
       // this line gave me error, with AWs was fine but not with XAWS
+      //udacity/70893
       private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
       private readonly todosTable = process.env.TODOS_TABLE,
       private readonly todosTableIndexName = process.env.TODOS_CREATED_AT_INDEX
