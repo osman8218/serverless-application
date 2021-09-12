@@ -7,7 +7,6 @@ import * as AWSXRay from 'aws-xray-sdk'
 
 //const logger = createLogger('TodoAccess')
 
-//70893.kowledge center
 const XAWS = AWSXRay.captureAWS(AWS)
 
 
@@ -36,30 +35,3 @@ export class AttachmentUtils {
   }   
   
 }
-// const bucketName = process.env.ATTACHMENT_S3_BUCKET
-
-// const urlExpiration = process.env.SIGNED_URL_EXPIRATION
-// const s3 = new XAWS.S3({ signatureVersion: 'v4' })
- 
-
-// export async function getUploadUrl(userId: string, todoId: string): Promise<string> {
-
-//   logger.info(`attachmentUtils data: create pre-signed uploadurl for ${userId} and ${todoId}` )
-
-//   logger.info(`attachmentUtils data: create pre-signed uploadurl Values: Bucket=${bucketName}, ${urlExpiration}` )
-
- 
-
-//   return s3.getSignedUrl('putObject', {
-
-//       Bucket: bucketName,
-
-//       Key: todoId,
-
-//       Expires: this.urlExpiration,
-
-//      // Expires: parseInt(urlExpiration)
-
-  //})   
-
-//}

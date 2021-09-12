@@ -19,17 +19,9 @@ export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
     // // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-    // logger.info(`Created upload URL ${Url}`)
 
-    // const userId = getUserId(event)
-    // const attachmentId = Url.split("?")[0]
-
-    // //const Url = await getUploadUrl(todoId)
-    // const Url = await createAttachmentPresignedUrl(todoId, userId)
     
-    // //await updateUrl(userId, todoId, attachmentId)
-    
-    const userId = getUserId(event)         //https://knowledge.udacity.com/questions/659234
+    const userId = getUserId(event)        
     const Url = await getUploadUrl(todoId)
     const attachmentId = Url.split("?")[0]
 
@@ -41,6 +33,8 @@ export const handler = middy(
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+
       },
       body: JSON.stringify({
         item: Url

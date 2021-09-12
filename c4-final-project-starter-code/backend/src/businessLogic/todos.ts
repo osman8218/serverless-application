@@ -13,20 +13,6 @@ const logger = createLogger('todos')
 
 
 // TODO: Implement businessLogic :fixing gettdo,getalltodos,gettodos
-// export async function getAllTodos(userId: string): Promise<TodoItem[]>{
-//   return todoAccess.getAllTodos(userId)
-// }
-
-// export async function getTodo(userId: string, todoId: string): Promise<TodoItem[]>{
-//   return todoAccess.getTodo(userId, todoId)
-// }
-
-// export async function getTodos(user: string): Promise<TodoItem[]> {
-//   loggger.info('GetTodos ', user)
-//   return await todoAccess.getAllTodo(user)
-
-
-// TODOACCESS from lesson 6
 
 export const getTodos = async (userId: string): Promise<TodoItem[]> => {
     
@@ -61,11 +47,10 @@ export const getTodo = async (todoId: string, userId: string): Promise<TodoItem>
     return await todosAccess.getTodo(todoId, userId);
     }
 
-    // thanks to feedback from https://knowledge.udacity.com/questions/659234
+    // knowledge center: fixed from logs error
 export async function updateTodo(userId: string, todoId: string, updateTodoRequest: UpdateTodoRequest) {
     
     logger.info(`Update todo ${todoId} for user ${userId}`)
-    // this function was here without the userId, then I realized I needed to use userId so I had to get it there. So the check is not not necessary
     const item = await todosAccess.getTodo(todoId, userId)
     
     if (item.userId !== userId) {

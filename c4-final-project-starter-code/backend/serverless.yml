@@ -139,7 +139,10 @@ functions: #SErvless yaml creation & dynambo db explanation for iam role code.
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: todos/{todoId}          
+          cors: true
+          authorizer: Auth 
+          
     iamRoleStatements:
       - Effect: Allow
         Action:

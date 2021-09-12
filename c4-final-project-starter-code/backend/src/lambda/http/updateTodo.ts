@@ -19,16 +19,18 @@ export const handler = middy(
     logger.info('Processing event: ', event)
 
     const userId = getUserId(event)
-    const response = await updateTodo(userId, todoId, updatedTodo) //found on knowledge center for help
+    const response = await updateTodo(userId, todoId, updatedTodo) //found on knowledge center for help: getting response type
 
 
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+
       },
       body: JSON.stringify({
-        item: response //corresponds with line above used from knowledge center
+        item: response 
       })
     }
   })
