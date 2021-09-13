@@ -33,7 +33,7 @@ export const handler = middy(
 
       },
       body: JSON.stringify({
-        item: Url
+        uploadUrl: Url //item: Url 
       })
     }
   })
