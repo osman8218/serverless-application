@@ -24,7 +24,6 @@ export class TodosAccess {
       ) {
   }
 
-  // help from knowledge center
 
   async getTodos(userId: string): Promise<TodoItem[]> {
 
